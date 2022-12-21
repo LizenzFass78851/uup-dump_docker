@@ -15,6 +15,6 @@ ADD ./run.sh ./
 ADD ./update.sh ./
 RUN chmod +x *.sh
 
-VOLUME ["/root"]
+VOLUME ["/root/uupdump-x64/packs","/root/uupdump-x64/fileinfo"]
 EXPOSE 44400
 ENTRYPOINT ["/root/uupdump-x64/run.sh"]
