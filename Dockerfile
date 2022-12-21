@@ -1,8 +1,10 @@
 FROM ubuntu:latest
 
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 RUN apt update && apt install -yy \
   php php-curl php-xml php-zip p7zip-full \
-  unzip && \
+  unzip screen && \
   rm -rf /var/cache/apt /var/lib/apt/lists
 
 WORKDIR /root
