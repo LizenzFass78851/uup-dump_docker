@@ -1,8 +1,11 @@
 #!/bin/bash
 
-cd /root/uupdump-x64
+./linux-uupdump-run-website.sh &
 
-screen -S Run -L -Logfile ./masterLog.0 -d -m ./linux-uupdump-run-website.sh
-screen -S Update -L -Logfile ./masterLog.1 -d -m ./update.sh
+for (( ; ; ))
+do
+   ./linux-uupdump-get-fileinfo+packs.sh
+   sleep 36h
+done
 
 exec "$@"
