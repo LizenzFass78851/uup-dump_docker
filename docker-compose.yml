@@ -9,9 +9,11 @@ services:
     ports:
       - "80:44400"
     volumes:
-      - packs:/root/uupdump-x64/packs/
-      - fileinfo:/root/uupdump-x64/fileinfo/
+      - packs:/root/uupdump-x64/uup/packs/
+      - fileinfo:/root/uupdump-x64/uup/fileinfo/
+      - ./branding:/root/uupdump-x64/uup/img/
 
 volumes:
   packs:
   fileinfo:
+
