@@ -16,8 +16,7 @@ WORKDIR /root/uupdump-x64
 ADD ./run.sh ./
 RUN chmod +x *.sh
 
-VOLUME ["/root/uupdump-x64/packs","/root/uupdump-x64/fileinfo"]
+VOLUME ["/root/uupdump-x64/uup/packs","/root/uupdump-x64/uup/fileinfo"]
 EXPOSE 44400
 ENTRYPOINT ["/root/uupdump-x64/run.sh"]
-
 
