@@ -12,6 +12,7 @@ RUN unzip ./uupdump-x64.zip && \
 
 WORKDIR /root/uupdump-x64
 ADD ./run.sh ./
+ADD ./update.sh ./
 RUN chmod +x *.sh
 
 VOLUME ["/root"]
