@@ -1,0 +1,17 @@
+version: '3.5'
+services:
+  uupdump:
+    build: ./
+    image: uupdump:latest
+    container_name: uupdump
+    hostname: uupdump
+    restart: always
+    ports:
+      - "80:44400"
+    volumes:
+      - packs:/root/uupdump-x64/packs/
+      - fileinfo:/root/uupdump-x64/fileinfo/
+
+volumes:
+  packs:
+  fileinfo:
