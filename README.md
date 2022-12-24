@@ -3,15 +3,10 @@ A docker image to run uupdump standalone
 ## just enter the following command to run it:
 
 ````
-
 mkdir uupdump
-
 cd uupdump
-
 git clone https://github.com/LizenzFass78851/uup-dump_docker .
-
 docker-compose up -d
-
 ````
 
 ## information
