@@ -15,6 +15,7 @@ RUN unzip ./uupdump-x64.zip && \
 WORKDIR /root/uupdump-x64
 ADD ./run.sh ./
 RUN chmod +x *.sh
+RUN sed -i 's/127.0.0.1/0.0.0.0/g' linux-uupdump-run-website.sh
 
 VOLUME ["/root/uupdump-x64/uup/packs","/root/uupdump-x64/uup/fileinfo"]
 EXPOSE 44400
