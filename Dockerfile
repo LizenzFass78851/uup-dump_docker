@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:22.04
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
