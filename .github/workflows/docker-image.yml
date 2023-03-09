@@ -13,7 +13,7 @@ env:
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
-  build_and_publish:
+  build_amd64:
     runs-on: ubuntu-latest
     permissions:
       contents: read
