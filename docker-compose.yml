@@ -2,7 +2,7 @@ version: '3.5'
 services:
   uupdump:
     #build: ./
-    image: ghcr.io/lizenzfass78851/uup-dump_docker:main
+    image: ghcr.io/lizenzfass78851/uup-dump_docker:latest
     container_name: uupdump
     hostname: uupdump
     restart: always
