@@ -1,0 +1,18 @@
+version: '3.5'
+services:
+  uupdump:
+    #build: ./
+    image: ghcr.io/lizenzfass78851/uup-dump_docker:latest
+    container_name: uupdump
+    hostname: uupdump
+    restart: always
+    ports:
+      - "80:44400"
+    volumes:
+      - packs:/root/uupdump-x64/uup/packs/
+      - fileinfo:/root/uupdump-x64/uup/fileinfo/
+
+volumes:
+  packs:
+  fileinfo:
+
