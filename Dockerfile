@@ -18,10 +18,10 @@ RUN chmod +x *.sh
 
 RUN git clone --recurse-submodules -j$(nproc||printf "2") $REPO ./uup
 
-RUN mkdir /uupdump/uup/packs && \
-  mkdir /uupdump/uup/fileinfo
+RUN mkdir ./uup/packs && \
+  mkdir ./uup/fileinfo
 
-RUN sed -i 's/127.0.0.1/0.0.0.0/g' linux-uupdump-run-website.sh
+RUN sed -i 's/127.0.0.1/0.0.0.0/g' ./linux-uupdump-run-website.sh
 
 RUN chmod -R 777 /uupdump
 
