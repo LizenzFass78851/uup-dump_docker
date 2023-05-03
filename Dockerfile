@@ -21,8 +21,6 @@ RUN git clone --recurse-submodules -j$(nproc||printf "2") $REPO ./uup
 RUN mkdir ./uup/packs && \
   mkdir ./uup/fileinfo
 
-RUN sed -i 's/127.0.0.1/0.0.0.0/g' /uupdump/linux-uupdump-run-website.sh
-
 RUN chmod -R 777 /uupdump
 
 VOLUME ["/uupdump/uup/packs","/uupdump/uup/fileinfo"]
