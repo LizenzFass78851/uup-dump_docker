@@ -10,8 +10,7 @@ RUN apt update && apt install -yy \
   rm -rf /var/cache/apt /var/lib/apt/lists
 
 WORKDIR /
-RUN mkdir ./uupdump
-ADD ./uupdump/* ./uupdump
+ADD ./uupdump ./
 
 WORKDIR /uupdump
 ADD ./run.sh ./
