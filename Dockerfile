@@ -3,21 +3,24 @@ FROM ubuntu:latest
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt update && apt install -yy \
-  php php-curl php-xml php-zip p7zip-full \
-  unzip && \
+  php php-curl php-xml php-zip p7zip-full && \
   rm -rf /var/cache/apt /var/lib/apt/lists
 
-WORKDIR /root
-ADD ./uupdump-x64.zip ./
-RUN unzip ./uupdump-x64.zip && \
-  rm ./uupdump-x64.zip
+WORKDIR /
+ADD ./uupdump ./
 
-WORKDIR /root/uupdump-x64
+WORKDIR /uupdump
 ADD ./run.sh ./
 RUN chmod +x *.sh
+
+RUN mkdir /uupdump/uup/packs && \
+  mkdir /uupdump/uup/fileinfo
+
 RUN sed -i 's/127.0.0.1/0.0.0.0/g' linux-uupdump-run-website.sh
 
-VOLUME ["/root/uupdump-x64/uup/packs","/root/uupdump-x64/uup/fileinfo"]
+RUN chmod -R 777 /uupdump
+
+VOLUME ["/uupdump/uup/packs","/uupdump/uup/fileinfo"]
 EXPOSE 44400
 ENTRYPOINT ["/root/uupdump-x64/run.sh"]
 
