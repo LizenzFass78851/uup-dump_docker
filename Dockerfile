@@ -16,7 +16,7 @@ WORKDIR /uupdump
 ADD ./run.sh ./
 RUN chmod +x *.sh
 
-RUN git clone --recurse-submodules -j$(nproc||printf "2") $REPO
+RUN git clone --recurse-submodules -j$(nproc||printf "2") $REPO ./uup
 
 RUN mkdir /uupdump/uup/packs && \
   mkdir /uupdump/uup/fileinfo
