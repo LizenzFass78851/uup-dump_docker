@@ -12,7 +12,6 @@ docker-compose up -d
 | Image | Tag | Build |
 |:------------------:|:--------------:|:-----------------:|
 | ghcr.io/lizenzfass78851/uup-dump_docker | main | [![Build and Publish Docker Image](https://github.com/LizenzFass78851/uup-dump_docker/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/LizenzFass78851/uup-dump_docker/actions/workflows/docker-image.yml) |
-| ghcr.io/lizenzfass78851/uup-dump_docker | dev | [![Build and Publish Docker Image](https://github.com/LizenzFass78851/uup-dump_docker/actions/workflows/docker-image.yml/badge.svg?branch=dev)](https://github.com/LizenzFass78851/uup-dump_docker/actions/workflows/docker-image.yml) |
 
 
 ## information
