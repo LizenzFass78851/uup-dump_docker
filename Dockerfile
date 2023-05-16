@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 ENV REPO=https://github.com/LizenzFass78851/uup-dump_website.git
 
-RUN sed -E -i 's#http://[^\s]*archive\.ubuntu\.com/ubuntu#https://mirror.eu.oneandone.net/linux/distributions/ubuntu/ubuntu#g' /etc/apt/sources.list
+RUN sed -E -i 's#http://[^\s]*archive\.ubuntu\.com/ubuntu#http://ftp.hosteurope.de/mirror/archive.ubuntu.com#g' /etc/apt/sources.list
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
