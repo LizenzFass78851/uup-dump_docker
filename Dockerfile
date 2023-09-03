@@ -2,6 +2,7 @@ FROM ubuntu:latest
 
 ENV REPO=https://github.com/LizenzFass78851/uup-dump_website.git
 ENV BRANCH=sta
+
 ENV TZ=Europe/Berlin
 
 #RUN sed -E -i 's#http://[^\s]*archive\.ubuntu\.com/ubuntu#http://ftp.fau.de/ubuntu#g' /etc/apt/sources.list
