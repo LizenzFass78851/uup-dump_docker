@@ -11,6 +11,8 @@ services:
     volumes:
       - packs:/uupdump/uup/packs/
       - fileinfo:/uupdump/uup/fileinfo/
+    environment:
+      - TZ=Europe/Berlin
 
 volumes:
   packs:
