@@ -7,7 +7,7 @@ services:
     hostname: uupdump
     restart: always
     ports:
-      - "80:44400"
+      - "127.0.0.1:80:44400"
     volumes:
       - packs:/uupdump/uup/packs/
       - fileinfo:/uupdump/uup/fileinfo/
