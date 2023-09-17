@@ -31,6 +31,6 @@ $fetchdetect amd64 Retail Mainline 25398 1 406
 
 $fetchdetect amd64 ReleasePreview Mainline 20349 1 406
 
-echo .
+echo ""
 echo Done.
-echo .
+echo ""
