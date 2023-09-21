@@ -1,5 +1,11 @@
 # uup-dump_docker
 A docker image to run uupdump standalone
+
+#### This repository is no longer maintained 
+- **Reason:** [uup-dump-get-fileinfo+packs](uupdump/linux-uupdump-get-fileinfo%2Bpacks.sh) script is no longer available in the complex version as in version v1.5.2 (see mdl forum from uupdump) as it is only available for windows.
+
+
+
 ## just enter the following command to run it:
 
 ````
