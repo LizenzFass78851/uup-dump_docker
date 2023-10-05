@@ -39,9 +39,10 @@ echo ""
 fileinfoandpacksrepo="https://github.com/uup-dump"
 packs="packs.git"
 fileinfo="fileinfo.git"
-git clone $fileinfoandpacksrepo/$packs packs
-git clone $fileinfoandpacksrepo/$fileinfo fileinfo
-
+[ -d ./packs ] && cd packs && git pull origin && cd ..
+[ ! -d ./packs ] && git clone $fileinfoandpacksrepo/$packs packs
+[ -d ./fileinfo ] && cd fileinfo && git pull origin && cd .. 
+[ ! -d ./fileinfo ] && git clone $fileinfoandpacksrepo/$fileinfo fileinfo
 
 echo ""
 
