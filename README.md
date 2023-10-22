@@ -2,7 +2,8 @@
 A docker image to run uupdump standalone
 
 #### This repository is no longer maintained 
-- **Reason:** [uup-dump-get-fileinfo+packs](uupdump/linux-uupdump-get-fileinfo%2Bpacks.sh) script is no longer available in the complex version as in version v1.5.2 (see mdl forum from uupdump) as it is only available for windows.
+**Reason:** 
+- for various reasons
 
 
 
@@ -22,6 +23,6 @@ docker-compose up -d
 
 ## information
 
-- The [uupdump sta source code](https://github.com/LizenzFass78851/uup-dump_website/tree/sta) comes from Paul on the MDL forums
+- The [uupdump sta source code](https://github.com/LizenzFass78851/uup-dump_website/tree/sta) comes from the MDL forums
 
 - The idea of merging this with docker is mine and not related to the uupdump developers
