@@ -13,11 +13,13 @@ services:
       - fileinfo:/uupdump/uup/fileinfo/
     environment:
       # set timezone
-      - TZ="Etc/UTC"
-      # set to get packs or fileinfo over git (0 for false, 1 for true)
-      - get_packs_and_fileinfo_over_git=0
+        TZ: "Etc/UTC"
+      # set to get packs and fileinfo over git (0 for false, 1 for true)
+        get_packs_and_fileinfo_over_git: 0
+      # set the repo to get packs and fileinfo over git (the onwer must contains repos named "fileinfo" and "packs".)
+        fileinfo_and_packs_repo: https://github.com/EverchangerL
       # set interval to get packs and fileinfo (e.g. 36h)
-      - set_interval_to_get_packs_and_fileinfo=36h
+        set_interval_to_get_packs_and_fileinfo: 36h
     
 
 volumes:

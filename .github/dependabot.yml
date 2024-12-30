@@ -8,4 +8,8 @@ updates:
       day: saturday
       time: "09:00"
 
-
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "15:00"
