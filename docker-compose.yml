@@ -11,6 +11,14 @@ services:
     volumes:
       - packs:/uupdump/uup/packs/
       - fileinfo:/uupdump/uup/fileinfo/
+    environment:
+      # set timezone
+      - TZ="Etc/UTC"
+      # set to get packs or fileinfo over git (0 for false, 1 for true)
+      - get_packs_and_fileinfo_over_git=0
+      # set interval to get packs and fileinfo (e.g. 36h)
+      - set_interval_to_get_packs_and_fileinfo=36h
+    
 
 volumes:
   packs:

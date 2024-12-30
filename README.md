@@ -1,9 +1,9 @@
 # uup-dump_docker
 A docker image to run uupdump standalone
 
-#### This repository is no longer maintained 
-**Reason:** 
-- for various reasons
+> [!IMPORTANT]
+> It is possible that the repo will not contain the most recent uupdump data because it cannot be ruled out that if a lot changes elsewhere, this container may not function.
+> Therefore, there is no guarantee of functionality over a longer period of time.
 
 
 
@@ -16,10 +16,9 @@ docker-compose up -d
 
 # Tags
 
-| Image | Tag | Build |
-|:------------------:|:--------------:|:-----------------:|
-| ghcr.io/lizenzfass78851/uup-dump_docker | main | [![Build and Publish Docker Image](https://github.com/LizenzFass78851/uup-dump_docker/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/LizenzFass78851/uup-dump_docker/actions/workflows/docker-image.yml) |
-
+| Image | Tag | Build | Latest |
+|:------------------:|:--------------:|:-----------------:|:-----------------:|
+| ghcr.io/lizenzfass78851/uup-dump_docker | main | [![Build and Publish Docker Image](https://github.com/LizenzFass78851/uup-dump_docker/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/LizenzFass78851/uup-dump_docker/actions/workflows/docker-image.yml) | 📌 |
 
 ## information
 

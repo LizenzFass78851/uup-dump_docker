@@ -5,7 +5,7 @@
 for (( ; ; ))
 do
    ./linux-uupdump-get-fileinfo+packs.sh
-   sleep 36h
+   sleep $set_interval_to_get_packs_and_fileinfo
 done
 
 exec "$@"

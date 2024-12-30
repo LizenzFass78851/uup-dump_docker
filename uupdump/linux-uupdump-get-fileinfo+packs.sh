@@ -7,6 +7,7 @@ pushd ./uup && rm -r uuptmp 2>/dev/null
 $packsgen
 echo ""
 
+update_packs_and_fileinfo() {
 # Client builds
 $fetchupd all Retail Mainline 22631 1
 $fetchupd all Retail Mainline 22621 1
@@ -61,15 +62,25 @@ $fetchupd amd64 Dev Mainline 25398 287 8
 $fetchupd amd64 Canary Mainline 25398 287 406
 $fetchupd amd64 Canary Mainline 25398 287 408
 $fetchupd amd64 Canary Mainline 25398 287 8
-  
+}
 
-#fileinfoandpacksrepo="https://github.com/uup-dump"
-#packs="packs.git"
-#fileinfo="fileinfo.git"
-#[ -d ./packs ] && cd packs && git pull origin && cd ..
-#[ ! -d ./packs ] && git clone $fileinfoandpacksrepo/$packs packs
-#[ -d ./fileinfo ] && cd fileinfo && git pull origin && cd .. 
-#[ ! -d ./fileinfo ] && git clone $fileinfoandpacksrepo/$fileinfo fileinfo
+update_packs_and_fileinfo_over_git() {
+	local fileinfoandpacksrepo="https://github.com/EverchangerL"
+	local packs="packs.git"
+	local fileinfo="fileinfo.git"
+	[ -d ./packs ] && cd packs && git pull origin --rebase && cd ..
+	[ ! -d ./packs ] && git clone $fileinfoandpacksrepo/$packs packs --single-branch --depth 1
+	[ -d ./fileinfo ] && cd fileinfo && git pull origin --rebase && cd .. 
+	[ ! -d ./fileinfo ] && git clone $fileinfoandpacksrepo/$fileinfo fileinfo --single-branch --depth 1
+}
+
+
+if [ "$get_packs_and_fileinfo_over_git" -eq 1 ]; then
+    update_packs_and_fileinfo_over_git
+else
+    update_packs_and_fileinfo
+fi
+
 
 echo ""
 
