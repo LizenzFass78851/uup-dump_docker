@@ -11,7 +11,7 @@ A docker image to run uupdump standalone
 
 ````
 git clone https://github.com/LizenzFass78851/uup-dump_docker uupdump
-docker-compose up -d
+docker compose up -d
 ````
 
 # Tags
