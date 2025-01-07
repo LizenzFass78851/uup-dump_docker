@@ -13,6 +13,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apk add --no-cache \
   git bash tzdata \
+  apache2 php82-apache2 \
   php82 php82-curl php82-xml php82-simplexml php82-zip p7zip && \
     [ ! -f /usr/bin/php ] && ln -s $(ls /usr/bin/php*) /usr/bin/php
 
@@ -31,7 +32,10 @@ RUN mkdir ./uup/packs && \
 
 RUN chmod -R 777 /uupdump
 
+RUN rm -rf /var/www/localhost/htdocs && \
+  ln -s /uupdump/uup /var/www/localhost/htdocs && \
+    sed -E -i 's/80$/44400/g'   /etc/apache2/httpd.conf
+
 VOLUME ["/uupdump/uup/packs","/uupdump/uup/fileinfo"]
 EXPOSE 44400
 ENTRYPOINT ["/uupdump/run.sh"]
-

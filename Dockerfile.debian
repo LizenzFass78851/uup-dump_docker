@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bookworm-slim
 
 ARG REPO=https://github.com/LizenzFass78851/uup-dump_website.git
 ARG BRANCH=sta
@@ -13,6 +13,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt update && apt dist-upgrade -yy && apt install -yy \
   git \
+  apache2 \
   php8.2 php8.2-curl php8.2-xml php8.2-zip p7zip-full && \
   rm -rf /var/cache/apt /var/lib/apt/lists
 
@@ -31,7 +32,11 @@ RUN mkdir ./uup/packs && \
 
 RUN chmod -R 777 /uupdump
 
+RUN rm -rf /var/www/html && \
+  ln -s /uupdump/uup /var/www/html && \
+    sed -E -i 's/80>$/44400>/g' /etc/apache2/sites-enabled/000-default.conf && \
+    sed -E -i 's/80$/44400/g'   /etc/apache2/ports.conf
+
 VOLUME ["/uupdump/uup/packs","/uupdump/uup/fileinfo"]
 EXPOSE 44400
 ENTRYPOINT ["/uupdump/run.sh"]
-
