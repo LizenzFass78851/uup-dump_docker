@@ -18,7 +18,7 @@ A docker image to run uupdump standalone
 git clone https://github.com/LizenzFass78851/uup-dump_docker uupdump --single-branch --depth 1
 cd uupdump
 nano docker-compose.yml # if you want to override any default value
-docker-compose up -d
+docker compose up -d
 ```
 
 ## information
