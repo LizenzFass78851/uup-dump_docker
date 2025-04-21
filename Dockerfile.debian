@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 ARG REPO=https://github.com/LizenzFass78851/uup-dump_website.git
 ARG BRANCH=sta
@@ -14,7 +14,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update && apt dist-upgrade -yy && apt install -yy \
   git \
   apache2 \
-  php8.2 php8.2-curl php8.2-xml php8.2-zip p7zip-full && \
+  php8.4 php8.4-curl php8.4-xml php8.4-zip p7zip-full && \
   rm -rf /var/cache/apt /var/lib/apt/lists
 
 WORKDIR /

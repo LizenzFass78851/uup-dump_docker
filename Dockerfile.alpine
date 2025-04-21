@@ -13,8 +13,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apk add --no-cache \
   git bash tzdata \
-  apache2 php82-apache2 \
-  php82 php82-curl php82-xml php82-simplexml php82-zip p7zip && \
+  apache2 php84-apache2 \
+  php84 php84-curl php84-xml php84-simplexml php84-zip p7zip && \
     [ ! -f /usr/bin/php ] && ln -s $(ls /usr/bin/php*) /usr/bin/php
 
 WORKDIR /
