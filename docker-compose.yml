@@ -1,9 +1,9 @@
 version: '3.5'
 services:
   uupdump:
-#    build:
-#      context: ./
-#      dockerfile: ./Dockerfile
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
     image: ghcr.io/lizenzfass78851/uup-dump_docker:latest
     container_name: uupdump
     hostname: uupdump

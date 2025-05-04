@@ -21,6 +21,16 @@ nano docker-compose.yml # if you want to override any default value
 docker compose up -d
 ```
 
+## To build and run with docker-compose (including Git submodules)
+
+```bash
+git clone https://github.com/LizenzFass78851/uup-dump_docker uupdump --single-branch --depth 1
+cd uupdump
+git submodule update --init --recursive
+nano docker-compose.yml # if you want to override any default value
+docker compose up -d --build
+```
+
 ## information
 
 - The [uupdump sta source code](https://github.com/LizenzFass78851/uup-dump_website/tree/sta) comes from the MDL forums
