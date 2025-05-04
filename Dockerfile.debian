@@ -1,8 +1,5 @@
 FROM debian:trixie-slim
 
-ARG REPO=https://github.com/LizenzFass78851/uup-dump_website.git
-ARG BRANCH=sta
-
 ENV TZ="Etc/UTC"
 
 ENV get_packs_and_fileinfo_over_git=0
@@ -20,15 +17,7 @@ RUN apt update && apt dist-upgrade -yy && apt install -yy \
 WORKDIR /uupdump
 ADD ./uupdump/* ./
 ADD ./run.sh ./
-
-RUN git clone \
-    --recurse-submodules \
-    -j$(nproc||printf "2") \
-    $REPO \
-    -b $BRANCH \
-    ./uup \
-    --single-branch \
-    --depth 1
+ADD ./website ./uup
 
 RUN bash -c 'mkdir ./uup/{packs,fileinfo}'
 RUN chmod -R 777 /uupdump

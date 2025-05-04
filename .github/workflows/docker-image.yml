@@ -23,6 +23,8 @@ jobs:
       - name: Checkout Dockerfile
         id: checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Setup QEMU
         id: qemu
