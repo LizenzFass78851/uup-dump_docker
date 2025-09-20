@@ -14,6 +14,8 @@ update_packs_and_fileinfo() {
 # SKU Description from List at: https://betawiki.net/wiki/List_of_Windows_product_types
 
 # Client builds
+$fetchupd all Retail Mainline 26200 1                     # Windows 11 25H2
+$fetchupd all Retail Mainline 26200 1 210                 # Windows 11 25H2 (WNC)
 $fetchupd all Retail Mainline 26100 1                     # Windows 11 24H2
 $fetchupd all Retail Mainline 26100 1 210                 # Windows 11 24H2 (WNC)
 $fetchupd all Retail Mainline 22631 1                     # Windows 11 23H2
@@ -24,6 +26,8 @@ $fetchupd all Retail Mainline 19044 1202 125              # Windows 10 21H2 (ENT
 $fetchupd amd64 Retail Mainline 19042 572 119             # Windows 10 20H2 (PPI_PRO)
 $fetchupd all Retail Mainline 17763 529 19                # Windows 10 1809 (HOME_SERVER)
 
+$fetchupd all ReleasePreview Mainline 26200 1             # Windows 11 25H2
+$fetchupd all ReleasePreview Mainline 26200 1 210         # Windows 11 25H2 (WNC)
 $fetchupd all ReleasePreview Mainline 26100 1             # Windows 11 24H2
 $fetchupd all ReleasePreview Mainline 26100 1 210         # Windows 11 24H2 (WNC)
 $fetchupd all ReleasePreview Mainline 22631 1             # Windows 11 23H2
@@ -32,11 +36,13 @@ $fetchupd all ReleasePreview Mainline 22000 1 4           # Windows 11 21H2 (ENT
 $fetchupd all ReleasePreview Mainline 19045 1806          # Windows 10 22H2
 $fetchupd all ReleasePreview Mainline 19044 1202 125      # Windows 10 21H2 (ENTERPRISE_S)
 
+$fetchupd all Beta Mainline 26200 1                       # Windows 11 25H2 Beta
 $fetchupd all Beta Mainline 26100 1                       # Windows 11 24H2 Beta
 $fetchupd all Beta Mainline 22631 1                       # Windows 11 23H2 Beta
 $fetchupd all Beta Mainline 22621 1                       # Windows 11 22H2 Beta
 $fetchupd all Beta Mainline 22000 1 4                     # Windows 11 21H2 Beta (ENTERPRISE)
 
+$fetchupd all Dev Mainline 26200 1                        # Windows 11 25H2 Dev
 $fetchupd all Dev Mainline 26100 1                        # Windows 11 24H2 Dev
 $fetchupd all Dev Mainline 22631 1                        # Windows 11 23H2 Dev
 $fetchupd all Dev Mainline 22621 1                        # Windows 11 22H2 Dev
