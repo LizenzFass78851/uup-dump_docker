@@ -2,6 +2,8 @@ FROM alpine:3.22
 
 ENV TZ="Etc/UTC"
 
+ENV search_msit=no
+
 ENV get_packs_and_fileinfo_over_git=0
 ENV set_interval_to_get_packs_and_fileinfo=36h
 ENV fileinfo_and_packs_repo=https://github.com/EverchangerL
