@@ -3,26 +3,46 @@ fetchupd="php ./sta/fetchupd.php"
 packsgen="php ./sta/packsgen.php"
 
 fetchupd-msit() {
-        local parm='${1} ${2} ${3}+corpnet ${4} ${5}'
-		$fetchupd amd64 ${parm}
+		local args=( "$@" )
+		local p1="${args[0]}"
+		local p2="${args[1]}"
+		local p3="${args[2]}+corpnet"
+		local p4="${args[3]}"
+		local p5="${args[4]}"
+		$fetchupd amd64 "$p1" "$p2" "$p3" "$p4" "$p5"
 }
 
 fetchupd-dAll() {
-        local parm='${1} ${2} ${3} ${4} ${5}'
-		$fetchupd x86   ${parm}
-		$fetchupd amd64 ${parm}
-        $fetchupd arm64 ${parm}
+		local args=( "$@" )
+		local p1="${args[0]}"
+		local p2="${args[1]}"
+		local p3="${args[2]}"
+		local p4="${args[3]}"
+		local p5="${args[4]}"
+		$fetchupd x86   "$p1" "$p2" "$p3" "$p4" "$p5"
+		$fetchupd amd64 "$p1" "$p2" "$p3" "$p4" "$p5"
+		$fetchupd arm64 "$p1" "$p2" "$p3" "$p4" "$p5"
 }
 
 fetchupd-d64b() {
-        local parm='${1} ${2} ${3} ${4} ${5}'
-		$fetchupd amd64 ${parm}
-        $fetchupd arm64 ${parm}
+		local args=( "$@" )
+		local p1="${args[0]}"
+		local p2="${args[1]}"
+		local p3="${args[2]}"
+		local p4="${args[3]}"
+		local p5="${args[4]}"
+		$fetchupd amd64 "$p1" "$p2" "$p3" "$p4" "$p5"
+		$fetchupd arm64 "$p1" "$p2" "$p3" "$p4" "$p5"
 }
 
 fetchupd-d64x() {
-        local parm='${1} ${2} ${3} ${4} ${5}'
-		$fetchupd amd64 ${parm}
+		local args=( "$@" )
+		local p1="${args[0]}"
+		local p2="${args[1]}"
+		local p3="${args[2]}"
+		local p4="${args[3]}"
+		local p5="${args[4]}"
+		$fetchupd amd64 "$p1" "$p2" "$p3" "$p4" "$p5"
 }
 
 pushd ./uup && rm -r uuptmp 2>/dev/null
