@@ -16,6 +16,8 @@ services:
     environment:
       # set timezone
         TZ: "Etc/UTC"
+      # set this to search msit builds (yes or no)
+        search_msit: no
       # set to get packs and fileinfo over git (0 for false, 1 for true)
         get_packs_and_fileinfo_over_git: 0
       # set the repo to get packs and fileinfo over git (the onwer must contains repos named "fileinfo" and "packs".)
