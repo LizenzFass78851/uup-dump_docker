@@ -3,30 +3,27 @@ fetchupd="php ./sta/fetchupd.php"
 packsgen="php ./sta/packsgen.php"
 
 fetchupd-msit() {
-        [[ '$search_msit' != 'yes' ]] && exit 0
         local parm='${1} ${2} ${3}+corpnet ${4} ${5}'
-	$fetchupd amd64 ${parm}
+		$fetchupd amd64 ${parm}
 }
 
 fetchupd-dAll() {
         local parm='${1} ${2} ${3} ${4} ${5}'
-	$fetchupd x86   ${parm}
-	$fetchupd amd64 ${parm}
+		$fetchupd x86   ${parm}
+		$fetchupd amd64 ${parm}
         $fetchupd arm64 ${parm}
 }
 
 fetchupd-d64b() {
         local parm='${1} ${2} ${3} ${4} ${5}'
-	$fetchupd amd64 ${parm}
+		$fetchupd amd64 ${parm}
         $fetchupd arm64 ${parm}
 }
 
 fetchupd-d64x() {
         local parm='${1} ${2} ${3} ${4} ${5}'
-	$fetchupd amd64 ${parm}
+		$fetchupd amd64 ${parm}
 }
-
-
 
 pushd ./uup && rm -r uuptmp 2>/dev/null
 
@@ -123,16 +120,19 @@ fetchupd-d64x Canary Mainline 25398 287 8               # Windows Server vNext 2
 }
 
 # MSIT builds
-fetchupd-msit MSIT Mainline 20348 1 8
-fetchupd-msit MSIT Mainline 20348 1 406
-fetchupd-msit MSIT Mainline 20349 1 406
-fetchupd-msit MSIT Mainline 20349 1 408
-fetchupd-msit MSIT Mainline 25398 1 8
-fetchupd-msit MSIT Mainline 25398 1 406
-fetchupd-msit MSIT Mainline 25398 1 408
-fetchupd-msit MSIT Mainline 26100 1 8
-fetchupd-msit MSIT Mainline 26100 1 406
-fetchupd-msit MSIT Mainline 26100 1 408
+if [ '$search_msit' = 'yes' ]; then
+	fetchupd-msit MSIT Mainline 20348 1 8
+	fetchupd-msit MSIT Mainline 20348 1 406
+	fetchupd-msit MSIT Mainline 20349 1 406
+	fetchupd-msit MSIT Mainline 20349 1 408
+	fetchupd-msit MSIT Mainline 25398 1 8
+	fetchupd-msit MSIT Mainline 25398 1 406
+	fetchupd-msit MSIT Mainline 25398 1 408
+	fetchupd-msit MSIT Mainline 26100 1 8
+	fetchupd-msit MSIT Mainline 26100 1 406
+	fetchupd-msit MSIT Mainline 26100 1 408
+fi
+
 
 update_packs_and_fileinfo_over_git() {
 	local fileinfoandpacksrepo=$fileinfo_and_packs_repo
