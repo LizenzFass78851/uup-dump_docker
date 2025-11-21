@@ -2,6 +2,8 @@
 fetchupd="php ./sta/fetchupd.php"
 packsgen="php ./sta/packsgen.php"
 
+# ----------------------------------------------------------------------------------------------------
+
 fetchupd-msit() {
 		local args=( "$@" )
 		local p1="${args[0]}"
@@ -45,6 +47,18 @@ fetchupd-d64x() {
 		$fetchupd amd64 "$p1" "$p2" "$p3" "$p4" "$p5"
 }
 
+fetchupd-d64a() {
+		local args=( "$@" )
+		local p1="${args[0]}"
+		local p2="${args[1]}"
+		local p3="${args[2]}"
+		local p4="${args[3]}"
+		local p5="${args[4]}"
+		$fetchupd arm64 "$p1" "$p2" "$p3" "$p4" "$p5"
+}
+
+# ----------------------------------------------------------------------------------------------------
+
 pushd ./uup && rm -r uuptmp 2>/dev/null
 
 $packsgen
@@ -54,9 +68,16 @@ update_packs_and_fileinfo() {
 [ -d ./packs/.git ]    && echo remove from git downloaded packs    && rm -rf packs/*
 [ -d ./fileinfo/.git ] && echo remove from git downloaded fileinfo && rm -rf fileinfo/*
 
+# ----------------------------------------------------------------------------------------------------
+
 # SKU Description from List at: https://betawiki.net/wiki/List_of_Windows_product_types
 
+# ----------------------------------------------------------------------------------------------------
+
 # Client builds
+### Retail
+fetchupd-d64a Retail Mainline 28000 1                     # Windows 11 26H1
+fetchupd-d64a Retail Mainline 28000 1 210                 # Windows 11 26H1 (WNC)
 fetchupd-d64b Retail Mainline 26200 1                     # Windows 11 25H2
 fetchupd-d64b Retail Mainline 26200 1 210                 # Windows 11 25H2 (WNC)
 fetchupd-d64b Retail Mainline 26100 1                     # Windows 11 24H2
@@ -69,6 +90,9 @@ fetchupd-dAll Retail Mainline 19044 1202 125              # Windows 10 21H2 (ENT
 fetchupd-d64x Retail Mainline 19042 572 119               # Windows 10 20H2 (PPI_PRO)
 fetchupd-dAll Retail Mainline 17763 529 19                # Windows 10 1809 (HOME_SERVER)
 
+### RP
+fetchupd-d64a ReleasePreview Mainline 28000 1             # Windows 11 26H1
+fetchupd-d64a ReleasePreview Mainline 28000 1 210         # Windows 11 26H1 (WNC)
 fetchupd-d64b ReleasePreview Mainline 26200 1             # Windows 11 25H2
 fetchupd-d64b ReleasePreview Mainline 26200 1 210         # Windows 11 25H2 (WNC)
 fetchupd-d64b ReleasePreview Mainline 26100 1             # Windows 11 24H2
@@ -79,12 +103,16 @@ fetchupd-d64b ReleasePreview Mainline 22000 1 4           # Windows 11 21H2 (ENT
 fetchupd-dAll ReleasePreview Mainline 19045 1806          # Windows 10 22H2
 fetchupd-dAll ReleasePreview Mainline 19044 1202 125      # Windows 10 21H2 (ENTERPRISE_S)
 
+### Beta
+fetchupd-d64b Beta Mainline 28000 1                       # Windows 11 26H1 Beta
 fetchupd-d64b Beta Mainline 26200 1                       # Windows 11 25H2 Beta
 fetchupd-d64b Beta Mainline 26100 1                       # Windows 11 24H2 Beta
 fetchupd-d64b Beta Mainline 22631 1                       # Windows 11 23H2 Beta
 fetchupd-d64b Beta Mainline 22621 1                       # Windows 11 22H2 Beta
 fetchupd-d64b Beta Mainline 22000 1 4                     # Windows 11 21H2 Beta (ENTERPRISE)
 
+### Dev
+fetchupd-d64b Dev Mainline 28000 1                        # Windows 11 26H1 Dev
 fetchupd-d64b Dev Mainline 26200 1                        # Windows 11 25H2 Dev
 fetchupd-d64b Dev Mainline 26100 1                        # Windows 11 24H2 Dev
 fetchupd-d64b Dev Mainline 22631 1                        # Windows 11 23H2 Dev
@@ -92,9 +120,13 @@ fetchupd-d64b Dev Mainline 22621 1                        # Windows 11 22H2 Dev
 fetchupd-d64x Dev Mainline 19100 1019 119                 # Windows 10 20H2 Dev (PPI_PRO)
 fetchupd-d64x Dev Mainline 19042 985 119                  # Windows 10 20H2 Dev (PPI_PRO)
 
+### Canary
 fetchupd-d64b Canary Mainline Latest                      # Windows 11 Canary
 
+# ----------------------------------------------------------------------------------------------------
+
 # Server builds
+### Retail
 fetchupd-d64b Retail Mainline 26100 1 406                 # Windows Server 2025 24H2 (AZURESTACKHCI)
 fetchupd-d64b Retail Mainline 26100 1 408                 # Windows Server 2025 24H2 (DATACENTER_CORE_AZURE)
 fetchupd-d64b Retail Mainline 26100 1 8                   # Windows Server 2025 24H2 (DATACENTER)
@@ -105,6 +137,7 @@ fetchupd-d64x Retail Mainline 20348 1 406                 # Windows Server 2022 
 fetchupd-d64x Retail Mainline 20348 1 8                   # Windows Server 2022 21H2 (DATACENTER)
 fetchupd-d64x Retail Mainline 17763 529 8                 # Windows Server 2019 (DATACENTER)
 
+### RP
 fetchupd-d64b ReleasePreview Mainline 26100 1 406         # Windows Server 2025 24H2 Release Preview (AZURESTACKHCI)
 fetchupd-d64b ReleasePreview Mainline 26100 1 408         # Windows Server 2025 24H2 Release Preview (DATACENTER_CORE_AZURE)
 fetchupd-d64b ReleasePreview Mainline 26100 1 8           # Windows Server 2025 24H2 Release Preview (DATACENTER)
@@ -117,6 +150,7 @@ fetchupd-d64x ReleasePreview Mainline 20348 11 406        # Windows Server 2022 
 fetchupd-d64x ReleasePreview Mainline 20348 1 8           # Windows Server 2022 21H2 Release Preview (DATACENTER)
 fetchupd-d64x ReleasePreview Mainline 17763 529 8         # Windows Server 2019 Release Preview (DATACENTER)
 
+### Beta
 fetchupd-d64b Beta Mainline 26100 1 406                   # Windows Server 2025 24H2 Beta (AZURESTACKHCI)
 fetchupd-d64b Beta Mainline 26100 1 408                   # Windows Server 2025 24H2 Beta (DATACENTER_CORE_AZURE)
 fetchupd-d64b Beta Mainline 26100 1 8                     # Windows Server 2025 24H2 Beta (DATACENTER)
@@ -124,6 +158,7 @@ fetchupd-d64x Beta Mainline 25398 287 406                 # Windows Server vNext
 fetchupd-d64x Beta Mainline 25398 287 408                 # Windows Server vNext 23H2 Beta (DATACENTER_CORE_AZURE)
 fetchupd-d64x Beta Mainline 25398 287 8                   # Windows Server vNext 23H2 Beta (DATACENTER)
 
+### Dev
 fetchupd-d64b Dev Mainline 26100 1 406                    # Windows Server 2025 24H2 Dev (AZURESTACKHCI)
 fetchupd-d64b Dev Mainline 26100 1 408                    # Windows Server 2025 24H2 Dev (DATACENTER_CORE_AZURE)
 fetchupd-d64b Dev Mainline 26100 1 8                      # Windows Server 2025 24H2 Dev (DATACENTER)
@@ -131,6 +166,7 @@ fetchupd-d64x Dev Mainline 25398 287 406                  # Windows Server vNext
 fetchupd-d64x Dev Mainline 25398 287 408                  # Windows Server vNext 23H2 Dev (DATACENTER_CORE_AZURE)
 fetchupd-d64x Dev Mainline 25398 287 8                    # Windows Server vNext 23H2 Dev (DATACENTER)
 
+### Canary
 fetchupd-d64b Canary Mainline 26100 1 406                 # Windows Server 2025 24H2 Canary (AZURESTACKHCI)
 fetchupd-d64b Canary Mainline 26100 1 408                 # Windows Server 2025 24H2 Canary (DATACENTER_CORE_AZURE)
 fetchupd-d64b Canary Mainline 26100 1 8                   # Windows Server 2025 24H2 Canary (DATACENTER)
@@ -138,6 +174,8 @@ fetchupd-d64x Canary Mainline 25398 287 406               # Windows Server vNext
 fetchupd-d64x Canary Mainline 25398 287 408               # Windows Server vNext 23H2 Canary (DATACENTER_CORE_AZURE)
 fetchupd-d64x Canary Mainline 25398 287 8                 # Windows Server vNext 23H2 Canary (DATACENTER)
 }
+
+# ----------------------------------------------------------------------------------------------------
 
 # MSIT builds
 if [ '$search_msit' = 'yes' ]; then
@@ -153,6 +191,8 @@ if [ '$search_msit' = 'yes' ]; then
 	fetchupd-msit MSIT Mainline 26100 1 408
 fi
 
+# ----------------------------------------------------------------------------------------------------
+
 update_packs_and_fileinfo_over_git() {
 	local fileinfoandpacksrepo=$fileinfo_and_packs_repo
 	local packs="packs.git"
@@ -163,6 +203,7 @@ update_packs_and_fileinfo_over_git() {
 	[ ! -d ./fileinfo/.git ] && rm -rf fileinfo/* && git clone $fileinfoandpacksrepo/$fileinfo fileinfo --single-branch --depth 1
 }
 
+# ----------------------------------------------------------------------------------------------------
 
 if [ "$get_packs_and_fileinfo_over_git" -eq 1 ]; then
     update_packs_and_fileinfo_over_git
@@ -170,6 +211,7 @@ else
     update_packs_and_fileinfo
 fi
 
+# ----------------------------------------------------------------------------------------------------
 
 echo ""
 
