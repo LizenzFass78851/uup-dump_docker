@@ -14,7 +14,9 @@ RUN apk add --no-cache \
   git bash tzdata \
   apache2 php84-apache2 \
   php84 php84-curl php84-xml php84-simplexml php84-zip p7zip && \
-    [ ! -f /usr/bin/php ] && ln -s $(ls /usr/bin/php*) /usr/bin/php
+    if [ ! -f /usr/bin/php ]; then \
+      ln -s $(ls /usr/bin/php[0-9][0-9] | head -n 1) /usr/bin/php; \
+    fi
 
 WORKDIR /uupdump
 ADD ./uupdump/* ./
