@@ -2,22 +2,32 @@ name: Build and Publish Docker Image
 
 on:
   push:
-    branches: [ "master", "main", "dev" ]
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
   schedule:
     - cron: '10 14 */3 * 2'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ (github.event_name == 'pull_request') && github.workflow && '-' && github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ (github.event_name == 'pull_request') && true || false }}
+
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.event.pull_request.base.repo.name || github.repository }}
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
-  build_amd64_arm64_arm:
+  build:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
+
+    env:
+      CONTAINER_NAME: test
 
     steps:
       - name: Checkout Dockerfile
@@ -39,6 +49,7 @@ jobs:
 
       - name: Login to GitHub Container Registry
         id: ghcr
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
@@ -51,7 +62,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           flavor: |
-            latest=${{ startsWith(github.ref, 'refs/heads/main') }}
+            latest=${{ github.ref_name == 'main' }}
 
       - name: Build and push main Docker image
         id: build
@@ -60,9 +71,9 @@ jobs:
           build-args: GH_TOKEN=${{ github.token }}
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
-          cache-to: type=gha,mode=max,ignore-error=true
-          cache-from: type=gha
-          push: true
+          platforms: linux/amd64,linux/386,linux/arm64,linux/arm/v7,linux/arm/v6,linux/riscv64
+          cache-to: ${{ github.event_name != 'pull_request' && 'type=gha,mode=max,ignore-error=true' || '' }}
+          cache-from: ${{ github.event_name != 'pull_request' && 'type=gha' || '' }}
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
