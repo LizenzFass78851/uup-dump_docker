@@ -64,6 +64,41 @@ jobs:
           flavor: |
             latest=${{ github.ref_name == 'main' }}
 
+      - name: Build main Docker image
+        id: prebuild
+        uses: docker/build-push-action@v6
+        with:
+          build-args: GH_TOKEN=${{ github.token }}
+          context: .
+          file: ./Dockerfile
+          cache-to: ${{ github.event_name != 'pull_request' && 'type=gha,mode=max,ignore-error=true' || '' }}
+          cache-from: ${{ github.event_name != 'pull_request' && 'type=gha' || '' }}
+          push: false
+          load: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: test - start
+        run: |
+          sudo docker run -t -d \
+          --name ${{ env.CONTAINER_NAME }} \
+          $(echo "${{ steps.meta.outputs.tags }}" | head -n1)
+      - name: test - check logs
+        uses: crazy-max/.github/.github/actions/container-logs-check@main
+        with:
+          container_name: ${{ env.CONTAINER_NAME }}
+          log_check: "Successfully written build information to the disk."
+          timeout: 120
+      - name: test - show logs
+        if: always()
+        run: |
+          sudo docker logs ${{ env.CONTAINER_NAME }} || true
+      - name: test - stop and remove
+        if: always()
+        run: |
+          sudo docker stop -t 10 ${{ env.CONTAINER_NAME }} || sudo docker stop -s SIGKILL -t 10 ${{ env.CONTAINER_NAME }} || true
+          sudo docker rm -f ${{ env.CONTAINER_NAME }}
+
       - name: Build and push main Docker image
         id: build
         uses: docker/build-push-action@v6
