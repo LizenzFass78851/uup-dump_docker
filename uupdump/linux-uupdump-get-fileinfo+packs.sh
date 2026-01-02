@@ -179,8 +179,8 @@ fi
 
 update_packs_and_fileinfo_over_git() {
 	local fileinfoandpacksrepo=$fileinfo_and_packs_repo
-	local packs="packs.git"
-	local fileinfo="fileinfo.git"
+	local packs=$git_reponame_packs
+	local fileinfo=$git_reponame_fileinfo
 	[ -d ./packs/.git ]      && cd packs          && git pull origin --rebase && cd ..
 	[ ! -d ./packs/.git ]    && rm -rf packs/*    && git clone $fileinfoandpacksrepo/$packs packs --single-branch --depth 1
 	[ -d ./fileinfo/.git ]   && cd fileinfo       && git pull origin --rebase && cd .. 

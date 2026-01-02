@@ -26,6 +26,9 @@ services:
         set_interval_to_get_packs_and_fileinfo: 36h
       # set to delete previous packs and fileinfo before getting new ones not over git (0 for false, 1 for true)
         delete_previous_packs_and_fileinfo_over_git: 1
+      # set git reponame for fileinfo and packs
+        git_reponame_fileinfo: fileinfo
+        git_reponame_packs: packs
     
 
 volumes:

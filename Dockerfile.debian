@@ -8,6 +8,8 @@ ENV get_packs_and_fileinfo_over_git=0
 ENV set_interval_to_get_packs_and_fileinfo=36h
 ENV fileinfo_and_packs_repo=https://github.com/EverchangerL
 ENV delete_previous_packs_and_fileinfo_over_git=1
+ENV git_reponame_fileinfo=fileinfo
+ENV git_reponame_packs=packs
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
