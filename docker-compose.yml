@@ -24,6 +24,8 @@ services:
         fileinfo_and_packs_repo: https://github.com/EverchangerL
       # set interval to get packs and fileinfo (e.g. 36h)
         set_interval_to_get_packs_and_fileinfo: 36h
+      # set to delete previous packs and fileinfo before getting new ones not over git (0 for false, 1 for true)
+        delete_previous_packs_and_fileinfo_over_git: 1
     
 
 volumes:

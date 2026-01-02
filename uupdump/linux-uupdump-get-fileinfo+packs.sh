@@ -41,8 +41,16 @@ $packsgen
 echo ""
 
 update_packs_and_fileinfo() {
-[ -d ./packs/.git ]    && echo remove from git downloaded packs    && rm -rf packs/*
-[ -d ./fileinfo/.git ] && echo remove from git downloaded fileinfo && rm -rf fileinfo/*
+if [ '$delete_previous_packs_and_fileinfo_over_git' -eq 1 ]; then
+	if [ -d ./packs/.git ]; then
+		echo "Removing previous packs..."
+		rm -rf packs/*
+	fi
+	if [ -d ./fileinfo/.git ]; then
+		echo "Removing previous fileinfo..."
+		rm -rf fileinfo/*
+	fi
+fi
 
 # ----------------------------------------------------------------------------------------------------
 
