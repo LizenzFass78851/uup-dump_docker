@@ -13,6 +13,13 @@ ENV git_reponame_packs=packs
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+ADD https://packages.sury.org/debsuryorg-archive-keyring.deb /tmp/debsuryorg-archive-keyring.deb
+RUN apt update && apt install -yy \
+  lsb-release ca-certificates apt-transport-https && \
+  dpkg -i /tmp/debsuryorg-archive-keyring.deb && rm /tmp/debsuryorg-archive-keyring.deb && \
+  sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list' && \
+  rm -rf /var/cache/apt /var/lib/apt/lists
+
 RUN apt update && apt dist-upgrade -yy && apt install -yy \
   git \
   apache2 \
