@@ -16,7 +16,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update && apt dist-upgrade -yy && apt install -yy \
   git \
   apache2 \
-  php8.4 php8.4-curl php8.4-xml php8.4-zip p7zip-full && \
+  php8.5 php8.5-curl php8.5-xml php8.5-zip p7zip-full && \
   rm -rf /var/cache/apt /var/lib/apt/lists
 
 WORKDIR /uupdump
