@@ -12,6 +12,39 @@ random_sleep() {
 	sleep $sleep_time
 }
 
+fetchupd_watchdog() {
+		local args=( "$@" )
+
+		local retry_count=0
+		local max_retries=1
+		local timeout_seconds=300
+		
+		while true; do
+			timeout $timeout_seconds $fetchupd "${args[@]}" &
+			PID=$!
+			wait $PID
+			local exit_code=$?
+			
+			if [ $exit_code -eq 0 ]; then
+				break
+			elif [ $exit_code -eq 124 ]; then
+				echo "fetchupd timeout (exceeded ${timeout_seconds}s), attempt $((retry_count + 1))/$max_retries"
+				retry_count=$((retry_count + 1))
+				if [ $retry_count -ge $max_retries ]; then
+					echo "Max retries reached. Giving up."
+					break
+				fi
+			else
+				echo "fetchupd failed with exit code $exit_code, attempt $((retry_count + 1))/$max_retries"
+				retry_count=$((retry_count + 1))
+				if [ $retry_count -ge $max_retries ]; then
+					echo "Max retries reached. Giving up."
+					break
+				fi
+			fi
+		done
+}
+
 fetchupd() {
 		local args=( "$@" )
 		local p1="${args[0]}" #Arch
@@ -22,22 +55,22 @@ fetchupd() {
 		local p6="${args[5]}" #SKU
 
 		if [ "$p1" = "msit"  ]; then
-			$fetchupd amd64 "${p2}" "${p3}" "${p4}+corpnet" "${p5}" "${p6}"
+			fetchupd_watchdog amd64 "${p2}" "${p3}" "${p4}+corpnet" "${p5}" "${p6}"
 		fi
 		if [ "$p1" = "dAll"  ]; then
-			$fetchupd x86   "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
-			$fetchupd amd64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
-			$fetchupd arm64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
+			fetchupd_watchdog x86   "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
+			fetchupd_watchdog amd64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
+			fetchupd_watchdog arm64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
 		fi
 		if [ "$p1" = "d64b"  ]; then
-			$fetchupd amd64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
-			$fetchupd arm64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
+			fetchupd_watchdog amd64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
+			fetchupd_watchdog arm64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
 		fi
 		if [ "$p1" = "d64x"  ]; then
-			$fetchupd amd64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
+			fetchupd_watchdog amd64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
 		fi
 		if [ "$p1" = "d64a"  ]; then
-			$fetchupd arm64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
+			fetchupd_watchdog arm64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
 		fi
 		random_sleep
 }
