@@ -4,6 +4,14 @@ packsgen="php ./sta/packsgen.php"
 
 # ----------------------------------------------------------------------------------------------------
 
+random_sleep() {
+	local min_sleep=1
+	local max_sleep=5
+	local sleep_time=$((RANDOM % (max_sleep - min_sleep + 1) + min_sleep))
+	echo "Sleeping $sleep_time seconds ..."
+	sleep $sleep_time
+}
+
 fetchupd() {
 		local args=( "$@" )
 		local p1="${args[0]}" #Arch
@@ -31,6 +39,7 @@ fetchupd() {
 		if [ "$p1" = "d64a"  ]; then
 			$fetchupd arm64 "${p2}" "${p3}" "${p4}" "${p5}" "${p6}"
 		fi
+		random_sleep
 }
 
 # ----------------------------------------------------------------------------------------------------
