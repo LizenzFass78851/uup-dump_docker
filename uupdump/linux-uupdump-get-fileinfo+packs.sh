@@ -102,6 +102,8 @@ fi
 
 # Client builds
 ### Retail
+fetchupd d64b Retail Mainline 26300 1                     # Windows 11 26H2
+fetchupd d64b Retail Mainline 26300 1 210                 # Windows 11 26H2 (WNC)
 fetchupd d64a Retail Mainline 28000 1                     # Windows 11 26H1
 fetchupd d64b Retail Mainline 26200 1                     # Windows 11 25H2
 fetchupd d64b Retail Mainline 26200 1 210                 # Windows 11 25H2 (WNC)
@@ -116,6 +118,8 @@ fetchupd d64x Retail Mainline 19042 572 119               # Windows 10 20H2 (PPI
 fetchupd dAll Retail Mainline 17763 529 19                # Windows 10 1809 (HOME_SERVER)
 
 ### RP
+fetchupd d64b ReleasePreview Mainline 26300 1             # Windows 11 26H2
+fetchupd d64b ReleasePreview Mainline 26300 1 210         # Windows 11 26H2 (WNC)
 fetchupd d64a ReleasePreview Mainline 28000 1             # Windows 11 26H1
 fetchupd d64b ReleasePreview Mainline 26200 1             # Windows 11 25H2
 fetchupd d64b ReleasePreview Mainline 26200 1 210         # Windows 11 25H2 (WNC)
@@ -128,6 +132,7 @@ fetchupd dAll ReleasePreview Mainline 19045 1806          # Windows 10 22H2
 fetchupd dAll ReleasePreview Mainline 19044 1202 125      # Windows 10 21H2 (ENTERPRISE_S)
 
 ### Beta
+fetchupd d64b Beta Mainline 26300 1                       # Windows 11 26H2 Beta
 fetchupd d64b Beta Mainline 26200 1                       # Windows 11 25H2 Beta
 fetchupd d64b Beta Mainline 26100 1                       # Windows 11 24H2 Beta
 fetchupd d64b Beta Mainline 22631 1                       # Windows 11 23H2 Beta
@@ -135,6 +140,7 @@ fetchupd d64b Beta Mainline 22621 1                       # Windows 11 22H2 Beta
 fetchupd d64b Beta Mainline 22000 1 4                     # Windows 11 21H2 Beta (ENTERPRISE)
 
 ### Dev
+fetchupd d64b Dev Mainline 26300 1                        # Windows 11 26H2 Dev
 fetchupd d64b Dev Mainline 26200 1                        # Windows 11 25H2 Dev
 fetchupd d64b Dev Mainline 26100 1                        # Windows 11 24H2 Dev
 fetchupd d64b Dev Mainline 22631 1                        # Windows 11 23H2 Dev
