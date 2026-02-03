@@ -128,7 +128,6 @@ fetchupd dAll ReleasePreview Mainline 19045 1806          # Windows 10 22H2
 fetchupd dAll ReleasePreview Mainline 19044 1202 125      # Windows 10 21H2 (ENTERPRISE_S)
 
 ### Beta
-fetchupd d64b Beta Mainline 28000 1                       # Windows 11 26H1 Beta
 fetchupd d64b Beta Mainline 26200 1                       # Windows 11 25H2 Beta
 fetchupd d64b Beta Mainline 26100 1                       # Windows 11 24H2 Beta
 fetchupd d64b Beta Mainline 22631 1                       # Windows 11 23H2 Beta
@@ -136,7 +135,6 @@ fetchupd d64b Beta Mainline 22621 1                       # Windows 11 22H2 Beta
 fetchupd d64b Beta Mainline 22000 1 4                     # Windows 11 21H2 Beta (ENTERPRISE)
 
 ### Dev
-fetchupd d64b Dev Mainline 28000 1                        # Windows 11 26H1 Dev
 fetchupd d64b Dev Mainline 26200 1                        # Windows 11 25H2 Dev
 fetchupd d64b Dev Mainline 26100 1                        # Windows 11 24H2 Dev
 fetchupd d64b Dev Mainline 22631 1                        # Windows 11 23H2 Dev
