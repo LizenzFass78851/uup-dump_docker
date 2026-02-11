@@ -104,7 +104,7 @@ fi
 ### Retail
 fetchupd d64b Retail Mainline 26300 1                     # Windows 11 26H2
 fetchupd d64b Retail Mainline 26300 1 210                 # Windows 11 26H2 (WNC)
-fetchupd d64a Retail Mainline 28000 1                     # Windows 11 26H1
+fetchupd d64b Retail Mainline 28000 1                     # Windows 11 26H1
 fetchupd d64b Retail Mainline 26200 1                     # Windows 11 25H2
 fetchupd d64b Retail Mainline 26200 1 210                 # Windows 11 25H2 (WNC)
 fetchupd d64b Retail Mainline 26100 1                     # Windows 11 24H2
@@ -120,7 +120,7 @@ fetchupd dAll Retail Mainline 17763 529 19                # Windows 10 1809 (HOM
 ### RP
 fetchupd d64b ReleasePreview Mainline 26300 1             # Windows 11 26H2
 fetchupd d64b ReleasePreview Mainline 26300 1 210         # Windows 11 26H2 (WNC)
-fetchupd d64a ReleasePreview Mainline 28000 1             # Windows 11 26H1
+fetchupd d64b ReleasePreview Mainline 28000 1             # Windows 11 26H1
 fetchupd d64b ReleasePreview Mainline 26200 1             # Windows 11 25H2
 fetchupd d64b ReleasePreview Mainline 26200 1 210         # Windows 11 25H2 (WNC)
 fetchupd d64b ReleasePreview Mainline 26100 1             # Windows 11 24H2
