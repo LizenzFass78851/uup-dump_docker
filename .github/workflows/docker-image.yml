@@ -58,7 +58,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           flavor: |
@@ -66,7 +66,7 @@ jobs:
 
       - name: Build main Docker image
         id: prebuild
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           build-args: GH_TOKEN=${{ github.token }}
           context: .
@@ -101,7 +101,7 @@ jobs:
 
       - name: Build and push main Docker image
         id: build
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           build-args: GH_TOKEN=${{ github.token }}
           context: .
