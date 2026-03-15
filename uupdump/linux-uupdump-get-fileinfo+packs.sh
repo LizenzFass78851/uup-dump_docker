@@ -249,5 +249,5 @@ rm -r uuptmp 2>/dev/null
 $packsgen
 
 echo ""
-echo Done.
+echo "Done."
 echo ""
