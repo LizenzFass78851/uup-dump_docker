@@ -79,7 +79,7 @@ jobs:
       - name: test - check logs
         uses: crazy-max/.github/.github/actions/container-logs-check@main
         with:
-          container_name: ${{ env.CONTAINER_NAME }}
+          name: ${{ env.CONTAINER_NAME }}
           log_check: "Successfully written build information to the disk."
           timeout: 120
       - name: test - show logs
