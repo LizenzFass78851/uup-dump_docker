@@ -16,92 +16,230 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.event.pull_request.base.repo.name || github.repository }}
+  IMAGE_BRANCH: ${{ github.event.pull_request.base.ref || github.ref_name }}
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  prepare_matrix:
+    runs-on: ubuntu-slim
+    steps:
+      - name: output matrix
+        id: matrix
+        run: |
+          arch="
+          amd64;linux/amd64
+          x86;linux/386
+          arm64;linux/arm64
+          armhfv7;linux/arm/v7
+          armhfv6;linux/arm/v6
+          riscv64;linux/riscv64
+          "
+
+          tag="
+          ${{ env.IMAGE_BRANCH }};${{ env.IMAGE_BRANCH == 'main' && 'true' || 'false' }}
+          "
+
+          # Arch JSON
+          ARCH_JSON=$(echo "$arch" | awk -F';' 'NF {
+              printf "%s{\"cpu\":\"%s\",\"platform\":\"%s\"}", sep, $1, $2
+              sep=","
+          }')
+          ARCH_JSON="[$ARCH_JSON]"
+
+          # Tag JSON
+          TAG_JSON=$(echo "$tag" | awk -F';' 'NF {
+              printf "%s{\"target\":\"%s\",\"latest\":\"%s\"}", sep, $1, $2
+              sep=","
+          }')
+          TAG_JSON="[$TAG_JSON]"
+
+          echo "$ARCH_JSON" | jq . && (echo "arch=$ARCH_JSON" >> $GITHUB_OUTPUT) || exit 1
+          echo "$TAG_JSON"  | jq . && (echo "tag=$TAG_JSON"   >> $GITHUB_OUTPUT) || exit 1
+
+    outputs:
+      arch: ${{ steps.matrix.outputs.arch }}
+      tag: ${{ steps.matrix.outputs.tag }}
+
+  build_matrix:
+    needs: prepare_matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: ${{fromJSON(needs.prepare_matrix.outputs.tag)}}
+        arch: ${{fromJSON(needs.prepare_matrix.outputs.arch)}}
+
+    runs-on: ${{ (startsWith(matrix.arch.cpu, 'arm') || matrix.arch.cpu == 'riscv64') && 'ubuntu-26.04-arm' || 'ubuntu-26.04' }}
+
+    env:
+      CONTAINER_NAME: test-${{ github.run_id }}-${{ matrix.tag.target }}-${{ matrix.arch.cpu }}
 
     permissions:
       contents: read
       packages: write
 
-    env:
-      CONTAINER_NAME: test-${{ github.run_id }}
+    outputs:
+        image_name_lower: ${{ steps.image_name_lower.outputs.image_name_lower }}
+        full_image_name_lower: ${{ steps.image_name_lower.outputs.full_image_name_lower }}
 
     steps:
       - name: Checkout Dockerfile
         uses: actions/checkout@v7
         with:
+          ref: ${{ matrix.tag.target }}
           submodules: recursive
 
       - name: Setup QEMU
+        if: ${{ matrix.arch.cpu == 'riscv64' }}
         uses: docker/setup-qemu-action@v4
-      
-      - name: Setup Docker Buildx
+
+      - &buildx-setup
+        name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Login to GitHub Container Registry
-        if: github.event_name != 'pull_request'
+      - &login-ghcr
+        name: Login to GitHub Container Registry
+        if: ${{ github.event_name != 'pull_request' }}
         uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.repository_owner }}
           password: ${{ github.token }}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - &meta
+        name: Extract metadata
         id: meta
         uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           flavor: |
-            latest=${{ github.ref_name == 'main' }}
+            latest=${{ matrix.tag.latest == 'true' }}
+          tags: |
+            type=raw,value=${{ matrix.tag.target }}
 
-      - name: Build main Docker image
+      - name: Image Name Lowercase
+        id: image_name_lower
+        run: |
+          lowercase="$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')"
+          echo "image_name_lower=${lowercase}" >> $GITHUB_OUTPUT
+          echo "full_image_name_lower=${{ env.REGISTRY }}/${lowercase}" >> $GITHUB_OUTPUT
+
+      - name: Build architecture image
         id: prebuild
         uses: docker/build-push-action@v7
         with:
-          build-args: &build-args GH_TOKEN=${{ github.token }}
-          context: &context .
-          file: &file ./Dockerfile
-          cache-to: &cache-to ${{ github.event_name != 'pull_request' && 'type=gha,mode=max,ignore-error=true' || '' }}
-          cache-from: &cache-from ${{ github.event_name != 'pull_request' && 'type=gha' || '' }}
-          push: false
-          load: true
-          tags: &tags ${{ steps.meta.outputs.tags }}
-          labels: &labels ${{ steps.meta.outputs.labels }}
+          build-args: |
+            GH_TOKEN=${{ github.token }}
+          context: .
+          file: ./Dockerfile
+          platforms: ${{ matrix.arch.platform }}
+          cache-to: ${{ github.event_name != 'pull_request' && format('type=gha,mode=max,ignore-error=true,scope={0}-{1}', matrix.tag.target, matrix.arch.cpu) }}
+          cache-from: ${{ github.event_name != 'pull_request' && format('type=gha,scope={0}-{1}', matrix.tag.target, matrix.arch.cpu) }}
+          outputs: >-
+            type=image,
+            name=${{ steps.image_name_lower.outputs.full_image_name_lower }},
+            push-by-digest=true,
+            name-canonical=true,
+            push=${{ github.event_name != 'pull_request' }}
 
-      - name: test - start
+      - name: Export digests
+        run: |
+          mkdir -p /tmp/digests
+          digest_docker="${{ steps.prebuild.outputs.digest }}"
+          [ -n "$digest_docker" ] && echo "${digest_docker}" | tee "/tmp/digests/${digest_docker#sha256:}.txt"
+
+      - name: Upload digest
+        uses: actions/upload-artifact@v7
+        with:
+          name: digests-${{ matrix.tag.target }}-${{ matrix.arch.cpu }}
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Test - start
         run: |
           sudo docker run -t -d \
-          --name ${{ env.CONTAINER_NAME }} \
-          $(echo "${{ steps.meta.outputs.tags }}" | head -n1)
-      - name: test - check logs
+          --name ${{ env.CONTAINER_NAME }} --platform ${{ matrix.arch.platform }} \
+          $(echo "${{ steps.image_name_lower.outputs.full_image_name_lower }}@${{ steps.prebuild.outputs.digest }}" | head -n1)
+      - name: Test - check logs
         uses: crazy-max/.github/.github/actions/container-logs-check@main
         with:
           name: ${{ env.CONTAINER_NAME }}
           log_check: "Successfully written build information to the disk."
           timeout: 120
-      - name: test - show logs
+      - name: Test - show logs
         if: always()
         run: |
-          sudo docker logs ${{ env.CONTAINER_NAME }} || true
-      - name: test - stop and remove
+          sudo docker logs "${{ env.CONTAINER_NAME }}" || true
+      - name: Test - stop and remove
         if: always()
         run: |
-          sudo docker stop -t 10 ${{ env.CONTAINER_NAME }} || sudo docker stop -s SIGKILL -t 10 ${{ env.CONTAINER_NAME }} || true
-          sudo docker rm -f ${{ env.CONTAINER_NAME }}
+          sudo docker stop -t 10 "${{ env.CONTAINER_NAME }}" \
+            || sudo docker stop -s SIGKILL -t 10 "${{ env.CONTAINER_NAME }}" \
+            || true
 
-      - name: Build and push main Docker image
-        id: build
-        uses: docker/build-push-action@v7
-        with: 
-          build-args: *build-args
-          context: *context
-          file: *file
-          platforms: linux/amd64,linux/386,linux/arm64,linux/arm/v7,linux/arm/v6,linux/riscv64
-          cache-to: *cache-to
-          cache-from: *cache-from
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: *tags
-          labels: *labels
+          sudo docker rm -f "${{ env.CONTAINER_NAME }}" || true
+
+  merge_manifests:
+    needs: [prepare_matrix, build_matrix]
+
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: ${{fromJSON(needs.prepare_matrix.outputs.tag)}}
+
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME_LOWERCASE: ${{ needs.build_matrix.outputs.image_name_lower }}
+      FULL_IMAGE_NAME_LOWERCASE: ${{ needs.build_matrix.outputs.full_image_name_lower }}
+
+    permissions:
+      contents: read
+      packages: write
+    
+    if: ${{ github.event_name != 'pull_request' }}
+
+    steps:
+      - *buildx-setup
+
+      - *login-ghcr
+
+      - *meta
+
+      - name: Download digests
+        uses: actions/download-artifact@v8
+        with:
+          path: /tmp/digests
+          pattern: digests-${{ matrix.tag.target }}-*
+          merge-multiple: true
+
+      - name: Show digests
+        run: |
+          find "/tmp/digests" -type f -print -exec cat {} \;
+
+      - name: Create multi-architecture manifest
+        working-directory: /tmp/digests
+        run: |
+          IMAGE="${{ env.FULL_IMAGE_NAME_LOWERCASE }}"
+
+          SOURCES=()
+
+          for digest_file in *.txt; do
+            digest="$(cat "$digest_file")"
+            SOURCES+=("${IMAGE}@${digest}")
+          done
+
+          TAG_ARGS=()
+
+          while IFS= read -r tag; do
+            TAG_ARGS+=(--tag "$tag")
+          done <<< "${{ steps.meta.outputs.tags }}"
+
+          docker buildx imagetools create \
+            "${TAG_ARGS[@]}" \
+            "${SOURCES[@]}"
+
+      - name: Inspect final manifest
+        run: |
+          docker buildx imagetools inspect \
+            "${{ fromJSON(steps.meta.outputs.json).tags[0] }}"
