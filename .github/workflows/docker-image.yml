@@ -126,30 +126,50 @@ jobs:
           echo "full_image_name_lower=${{ env.REGISTRY }}/${lowercase}" >> $GITHUB_OUTPUT
 
       - name: Build architecture image
+        if: ${{ github.event_name != 'pull_request' }}
         id: prebuild
         uses: docker/build-push-action@v7
         with:
-          build-args: |
+          build-args: &build-args |
             GH_TOKEN=${{ github.token }}
-          context: .
-          file: ./Dockerfile
-          platforms: ${{ matrix.arch.platform }}
-          cache-to: ${{ github.event_name != 'pull_request' && format('type=gha,mode=max,ignore-error=true,scope={0}-{1}', matrix.tag.target, matrix.arch.cpu) }}
-          cache-from: ${{ github.event_name != 'pull_request' && format('type=gha,scope={0}-{1}', matrix.tag.target, matrix.arch.cpu) }}
+          context: &context .
+          file: &file ./Dockerfile
+          platforms: &platforms ${{ matrix.arch.platform }}
+          cache-to: &cache-to ${{ github.event_name != 'pull_request' && format('type=gha,mode=max,ignore-error=true,scope={0}-{1}', matrix.tag.target, matrix.arch.cpu) || '' }}
+          cache-from: &cache-from ${{ github.event_name != 'pull_request' && format('type=gha,scope={0}-{1}', matrix.tag.target, matrix.arch.cpu) || '' }}
+          labels: &labels ${{ steps.meta.outputs.labels }}
           outputs: >-
             type=image,
             name=${{ steps.image_name_lower.outputs.full_image_name_lower }},
             push-by-digest=true,
             name-canonical=true,
-            push=${{ github.event_name != 'pull_request' }}
+            push=true
+
+      - name: Build architecture image for pull requests
+        if: ${{ github.event_name == 'pull_request' }}
+        id: pr-build
+        uses: docker/build-push-action@v7
+        with:
+          build-args: *build-args
+          context: *context
+          file: *file
+          platforms: *platforms
+          cache-to: *cache-to
+          cache-from: *cache-from
+          labels: *labels
+          tags: ${{ steps.meta.outputs.tags }}
+          load: true
+          push: false
 
       - name: Export digests
+        if: ${{ github.event_name != 'pull_request' }}
         run: |
           mkdir -p /tmp/digests
           digest_docker="${{ steps.prebuild.outputs.digest }}"
           [ -n "$digest_docker" ] && touch "/tmp/digests/${digest_docker#sha256:}"
 
       - name: Upload digest
+        if: ${{ github.event_name != 'pull_request' }}
         uses: actions/upload-artifact@v7
         with:
           name: digests-${{ matrix.tag.target }}-${{ matrix.arch.cpu }}
@@ -162,9 +182,14 @@ jobs:
         env:
           PLATFORM: "${{ matrix.arch.platform }}"
         run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            IMAGE=$(echo "${{ steps.meta.outputs.tags }}" | head -n1)
+          else
+            IMAGE=$(echo "${{ steps.image_name_lower.outputs.full_image_name_lower }}@${{ steps.prebuild.outputs.digest }}" | head -n1)
+          fi
           sudo docker run -t -d \
           --name ${{ env.CONTAINER_NAME }} --platform ${PLATFORM%%,*} \
-          $(echo "${{ steps.image_name_lower.outputs.full_image_name_lower }}@${{ steps.prebuild.outputs.digest }}" | head -n1)
+          ${IMAGE}
       - name: Test - check logs
         uses: crazy-max/.github/.github/actions/container-logs-check@main
         with:
