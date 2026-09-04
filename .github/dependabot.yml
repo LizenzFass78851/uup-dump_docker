@@ -11,15 +11,21 @@ updates:
       github_action-dependencies:
         patterns:
           - "*"
+    cooldown:
+      default-days: 0
 
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "daily"
       time: "15:00"
+    cooldown:
+      default-days: 0
 
   - package-ecosystem: gitsubmodule
     directory: "/"
     schedule:
       interval: "daily"
       time: "04:00"
+    cooldown:
+      default-days: 0
