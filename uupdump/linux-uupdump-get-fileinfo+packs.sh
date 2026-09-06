@@ -140,18 +140,18 @@ fetchupd d64b Beta Mainline 22631 1                       # Windows 11 23H2 Beta
 fetchupd d64b Beta Mainline 22621 1                       # Windows 11 22H2 Beta
 fetchupd d64b Beta Mainline 22000 1 4                     # Windows 11 21H2 Beta (ENTERPRISE)
 
-### Dev
-fetchupd d64b Dev Mainline 26300 1                        # Windows 11 26H2 Dev
-fetchupd d64b Dev Mainline 28000 1                        # Windows 11 26H1 Dev
-fetchupd d64b Dev Mainline 26200 1                        # Windows 11 25H2 Dev
-fetchupd d64b Dev Mainline 26100 1                        # Windows 11 24H2 Dev
-fetchupd d64b Dev Mainline 22631 1                        # Windows 11 23H2 Dev
-fetchupd d64b Dev Mainline 22621 1                        # Windows 11 22H2 Dev
-fetchupd d64x Dev Mainline 19100 1019 119                 # Windows 10 20H2 Dev (PPI_PRO)
-fetchupd d64x Dev Mainline 19042 985 119                  # Windows 10 20H2 Dev (PPI_PRO)
+### Experimental
+fetchupd d64b Dev Mainline 26300 1                        # Windows 11 26H2 Experimental
+fetchupd d64b Dev Mainline 28000 1                        # Windows 11 26H1 Experimental
+fetchupd d64b Dev Mainline 26200 1                        # Windows 11 25H2 Experimental
+fetchupd d64b Dev Mainline 26100 1                        # Windows 11 24H2 Experimental
+fetchupd d64b Dev Mainline 22631 1                        # Windows 11 23H2 Experimental
+fetchupd d64b Dev Mainline 22621 1                        # Windows 11 22H2 Experimental
+fetchupd d64x Dev Mainline 19100 1019 119                 # Windows 10 20H2 Experimental (PPI_PRO)
+fetchupd d64x Dev Mainline 19042 985 119                  # Windows 10 20H2 Experimental (PPI_PRO)
 
-### Canary
-fetchupd d64b Canary Mainline Latest                      # Windows 11 Canary
+### Future Platforms
+fetchupd d64b Canary Mainline Latest                      # Windows 11 Future Platforms
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -188,21 +188,21 @@ fetchupd d64x Beta Mainline 25398 287 406                 # Windows Server vNext
 fetchupd d64x Beta Mainline 25398 287 408                 # Windows Server vNext 23H2 Beta (DATACENTER_CORE_AZURE)
 fetchupd d64x Beta Mainline 25398 287 8                   # Windows Server vNext 23H2 Beta (DATACENTER)
 
-### Dev
-fetchupd d64b Dev Mainline 26100 1 406                    # Windows Server 2025 24H2 Dev (AZURESTACKHCI)
-fetchupd d64b Dev Mainline 26100 1 408                    # Windows Server 2025 24H2 Dev (DATACENTER_CORE_AZURE)
-fetchupd d64b Dev Mainline 26100 1 8                      # Windows Server 2025 24H2 Dev (DATACENTER)
-fetchupd d64x Dev Mainline 25398 287 406                  # Windows Server vNext 23H2 Dev (AZURESTACKHCI)
-fetchupd d64x Dev Mainline 25398 287 408                  # Windows Server vNext 23H2 Dev (DATACENTER_CORE_AZURE)
-fetchupd d64x Dev Mainline 25398 287 8                    # Windows Server vNext 23H2 Dev (DATACENTER)
+### Experimental
+fetchupd d64b Dev Mainline 26100 1 406                    # Windows Server 2025 24H2 Experimental (AZURESTACKHCI)
+fetchupd d64b Dev Mainline 26100 1 408                    # Windows Server 2025 24H2 Experimental (DATACENTER_CORE_AZURE)
+fetchupd d64b Dev Mainline 26100 1 8                      # Windows Server 2025 24H2 Experimental (DATACENTER)
+fetchupd d64x Dev Mainline 25398 287 406                  # Windows Server vNext 23H2 Experimental (AZURESTACKHCI)
+fetchupd d64x Dev Mainline 25398 287 408                  # Windows Server vNext 23H2 Experimental (DATACENTER_CORE_AZURE)
+fetchupd d64x Dev Mainline 25398 287 8                    # Windows Server vNext 23H2 Experimental (DATACENTER)
 
-### Canary
-fetchupd d64b Canary Mainline 26100 1 406                 # Windows Server 2025 24H2 Canary (AZURESTACKHCI)
-fetchupd d64b Canary Mainline 26100 1 408                 # Windows Server 2025 24H2 Canary (DATACENTER_CORE_AZURE)
-fetchupd d64b Canary Mainline 26100 1 8                   # Windows Server 2025 24H2 Canary (DATACENTER)
-fetchupd d64x Canary Mainline 25398 287 406               # Windows Server vNext 23H2 Canary (AZURESTACKHCI)
-fetchupd d64x Canary Mainline 25398 287 408               # Windows Server vNext 23H2 Canary (DATACENTER_CORE_AZURE)
-fetchupd d64x Canary Mainline 25398 287 8                 # Windows Server vNext 23H2 Canary (DATACENTER)
+### Future Platforms
+fetchupd d64b Canary Mainline 26100 1 406                 # Windows Server 2025 24H2 Future Platforms (AZURESTACKHCI)
+fetchupd d64b Canary Mainline 26100 1 408                 # Windows Server 2025 24H2 Future Platforms (DATACENTER_CORE_AZURE)
+fetchupd d64b Canary Mainline 26100 1 8                   # Windows Server 2025 24H2 Future Platforms (DATACENTER)
+fetchupd d64x Canary Mainline 25398 287 406               # Windows Server vNext 23H2 Future Platforms (AZURESTACKHCI)
+fetchupd d64x Canary Mainline 25398 287 408               # Windows Server vNext 23H2 Future Platforms (DATACENTER_CORE_AZURE)
+fetchupd d64x Canary Mainline 25398 287 8                 # Windows Server vNext 23H2 Future Platforms (DATACENTER)
 }
 
 # ----------------------------------------------------------------------------------------------------
