@@ -22,7 +22,7 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.event.pull_request.base.repo.name || github.repository }}
-  IMAGE_BRANCH: ${{ github.event.pull_request.base.ref || github.ref_name }}
+  IMAGE_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
@@ -73,7 +73,7 @@ jobs:
     runs-on: ${{ (startsWith(matrix.arch.cpu, 'arm') || matrix.arch.cpu == 'riscv64') && 'ubuntu-26.04-arm' || 'ubuntu-26.04' }}
 
     env:
-      CONTAINER_NAME: test-${{ github.run_id }}-${{ matrix.tag.target }}-${{ matrix.arch.cpu }}
+      CONTAINER_NAME: test-${{ github.run_id }}-${{ matrix.arch.cpu }}
 
     permissions:
       contents: read
