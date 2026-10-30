@@ -63,6 +63,7 @@ jobs:
       tag: ${{ steps.matrix.outputs.tag }}
 
   build_matrix:
+    name: Build image (${{ matrix.arch.cpu }})
     needs: prepare_matrix
     strategy:
       fail-fast: false
