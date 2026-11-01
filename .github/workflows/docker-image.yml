@@ -63,7 +63,7 @@ jobs:
       tag: ${{ steps.matrix.outputs.tag }}
 
   build_matrix:
-    name: Build image (${{ matrix.arch.cpu }})
+    name: Build image (${{ matrix.arch.cpu }})${{ github.event_name != 'pull_request' && format(' ({0})', matrix.tag.target) || '' }}
     needs: prepare_matrix
     strategy:
       fail-fast: false
