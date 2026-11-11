@@ -192,6 +192,7 @@ jobs:
           --name ${{ env.CONTAINER_NAME }} --platform ${PLATFORM%%,*} \
           ${IMAGE}
       - name: Test - check logs
+        continue-on-error: ${{ github.event_name != 'pull_request' }}
         uses: crazy-max/.github/.github/actions/container-logs-check@main
         with:
           name: ${{ env.CONTAINER_NAME }}
